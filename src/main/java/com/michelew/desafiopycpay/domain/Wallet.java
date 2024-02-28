@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 @ToString
 public class Wallet {
 
@@ -20,11 +20,24 @@ public class Wallet {
 
     private String account;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+
     private Double balance;
 
+    public void withdraw(Double amount) {
+        if (this.balance >= amount) {
+            this.balance -= amount;
+        } else {
+            throw new RuntimeException("Transaction invalid: Insufficient balance.");
+        }
+    }
+
+    public void deposit(Double amount){
+        this.balance += amount;
+    }
 
 }

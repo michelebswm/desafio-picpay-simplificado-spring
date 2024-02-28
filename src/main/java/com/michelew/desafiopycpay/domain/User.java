@@ -5,11 +5,12 @@ import com.michelew.desafiopycpay.domain.enums.TypeUser;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity(name = "tb_user")
 @Table(name = "tb_user")
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @ToString
 public class User {
@@ -19,12 +20,10 @@ public class User {
 
     private String name;
 
-    @EqualsAndHashCode.Include
     private String email;
 
     private String password;
 
-    @EqualsAndHashCode.Include
     private String numeroDocumento;
 
     private TypePerson tipoPessoa;
@@ -63,6 +62,16 @@ public class User {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) && Objects.equals(numeroDocumento, user.numeroDocumento);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, numeroDocumento);
+    }
 }
