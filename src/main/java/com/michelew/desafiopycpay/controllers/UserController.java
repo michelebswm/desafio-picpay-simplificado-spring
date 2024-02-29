@@ -17,15 +17,21 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<User>> findAll() {
         List<User> users = service.findAll();
         return ResponseEntity.ok().body(users);
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody @Valid User userData){
+    public ResponseEntity<User> insert(@RequestBody @Valid User userData) {
+        if (userData.getTipoPessoa().getCode() == 1) {
+            service.validarCNPJ(userData.getNumeroDocumento());
+        } else if (userData.getTipoPessoa().getCode() == 2) {
+            service.validaCPF(userData.getNumeroDocumento());
+        }
         User newUser = service.insert(userData);
         return ResponseEntity.ok().body(newUser);
+
     }
 
 }

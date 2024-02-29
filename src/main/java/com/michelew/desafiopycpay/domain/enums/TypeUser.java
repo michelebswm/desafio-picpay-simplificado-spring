@@ -1,5 +1,7 @@
 package com.michelew.desafiopycpay.domain.enums;
 
+import com.michelew.desafiopycpay.services.exceptions.UserDocumentInvalidException;
+
 public enum TypeUser {
     COMMON(1),
     RETAILER(2);

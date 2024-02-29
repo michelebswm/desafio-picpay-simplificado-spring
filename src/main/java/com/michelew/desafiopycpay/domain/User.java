@@ -2,6 +2,7 @@ package com.michelew.desafiopycpay.domain;
 
 import com.michelew.desafiopycpay.domain.enums.TypePerson;
 import com.michelew.desafiopycpay.domain.enums.TypeUser;
+import com.michelew.desafiopycpay.services.exceptions.UserDocumentInvalidException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,27 +41,10 @@ public class User {
         this.password = password;
         this.tipoPessoa = tipoPessoa;
         this.typeUser = typeUser;
+        this.numeroDocumento = numeroDocumento;
 
-        if (tipoPessoa.getCode() == 1) {
-            validarCNPJ(numeroDocumento);
-            this.numeroDocumento = numeroDocumento;
-        } else if (tipoPessoa.getCode() == 2) {
-            validaCPF(numeroDocumento);
-            this.numeroDocumento = numeroDocumento;
-        }
     }
 
-    public void validaCPF(String cpf) {
-        if (!cpf.matches("\\d{11}")) {
-            throw new IllegalArgumentException("Invalid CPF.");
-        }
-    }
-
-    private void validarCNPJ(String cnpj) {
-        if (!cnpj.matches("\\d{14}")) {
-            throw new IllegalArgumentException("Invalid CNPJ.");
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
