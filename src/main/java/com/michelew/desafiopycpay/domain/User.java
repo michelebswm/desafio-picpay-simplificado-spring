@@ -1,5 +1,6 @@
 package com.michelew.desafiopycpay.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.michelew.desafiopycpay.domain.enums.TypePerson;
 import com.michelew.desafiopycpay.domain.enums.TypeUser;
 import com.michelew.desafiopycpay.services.exceptions.UserDocumentInvalidException;
@@ -31,6 +32,7 @@ public class User {
 
     private TypeUser typeUser;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Wallet wallet;
 

@@ -20,7 +20,6 @@ public class Wallet {
 
     private String account;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
