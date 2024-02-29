@@ -1,6 +1,7 @@
 package com.michelew.desafiopycpay.controllers;
 
 import com.michelew.desafiopycpay.domain.Wallet;
+import com.michelew.desafiopycpay.dto.WalletIdResponseDTO;
 import com.michelew.desafiopycpay.services.WalletService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,9 @@ public class WalletController {
     }
 
     @PostMapping
-    public ResponseEntity<Wallet> insert(@RequestBody @Valid Wallet walletData){
+    public ResponseEntity<WalletIdResponseDTO> insert(@RequestBody @Valid Wallet walletData){
         Wallet newWallet = service.insert(walletData);
-        return ResponseEntity.ok().body(newWallet);
+        WalletIdResponseDTO responseDTO = new WalletIdResponseDTO(newWallet.getId());
+        return ResponseEntity.ok().body(responseDTO);
     }
 }

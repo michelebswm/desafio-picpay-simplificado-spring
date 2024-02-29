@@ -1,6 +1,7 @@
 package com.michelew.desafiopycpay.controllers;
 
 import com.michelew.desafiopycpay.domain.User;
+import com.michelew.desafiopycpay.dto.UserIdResponseDTO;
 import com.michelew.desafiopycpay.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody @Valid User userData) {
+    public ResponseEntity<UserIdResponseDTO> insert(@RequestBody @Valid User userData) {
         if (userData.getTipoPessoa().getCode() == 1) {
             service.validarCNPJ(userData.getNumeroDocumento());
         } else if (userData.getTipoPessoa().getCode() == 2) {
             service.validaCPF(userData.getNumeroDocumento());
         }
         User newUser = service.insert(userData);
-        return ResponseEntity.ok().body(newUser);
+        UserIdResponseDTO responseDTO = new UserIdResponseDTO(newUser.getId());
+        return ResponseEntity.ok().body(responseDTO);
 
     }
 
