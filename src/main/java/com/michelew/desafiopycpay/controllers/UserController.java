@@ -7,7 +7,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,13 @@ public class UserController {
         return ResponseEntity.ok().body(users);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id){
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user);
+    }
+
+
     @PostMapping
     public ResponseEntity<UserIdResponseDTO> insert(@RequestBody @Valid User userData) {
         if (userData.getTipoPessoa().getCode() == 1) {
@@ -31,8 +40,9 @@ public class UserController {
             service.validaCPF(userData.getNumeroDocumento());
         }
         User newUser = service.insert(userData);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newUser.getId()).toUri();
         UserIdResponseDTO responseDTO = new UserIdResponseDTO(newUser.getId());
-        return ResponseEntity.ok().body(responseDTO);
+        return ResponseEntity.created(uri).body(responseDTO);
 
     }
 

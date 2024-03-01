@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "tb_wallet")
+@Entity
 @Table(name = "tb_wallet")
 @Getter
 @Setter
