@@ -2,6 +2,7 @@ package com.michelew.desafiopycpay.services;
 
 import com.michelew.desafiopycpay.domain.User;
 import com.michelew.desafiopycpay.domain.Wallet;
+import com.michelew.desafiopycpay.repositories.UserRepository;
 import com.michelew.desafiopycpay.repositories.WalletRepository;
 import com.michelew.desafiopycpay.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class WalletService {
     @Autowired
     private WalletRepository repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<Wallet> findAll(){
         return repository.findAll();
     }
@@ -26,6 +30,9 @@ public class WalletService {
     }
 
     public Wallet insert(Wallet wallet){
+        if (!userRepository.existsById(wallet.getUser().getId())){
+            throw new ResourceNotFoundException(wallet.getUser().getId());
+        }
         return repository.save(wallet);
     }
 }
