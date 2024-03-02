@@ -1,6 +1,7 @@
 package com.michelew.desafiopycpay.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.michelew.desafiopycpay.services.exceptions.TransactionInvalidException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,14 +25,21 @@ public class Wallet {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     private Double balance;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "payer")
+    private Transaction transactionAsPayer;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "receiver")
+    private Transaction transactionAsReceiver;
 
     public void withdraw(Double amount) {
         if (this.balance >= amount) {
             this.balance -= amount;
         } else {
-            throw new RuntimeException("Transaction invalid: Insufficient balance.");
+            throw new TransactionInvalidException("Transaction invalid: Insufficient balance.");
         }
     }
 

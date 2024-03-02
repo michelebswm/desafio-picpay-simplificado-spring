@@ -33,7 +33,7 @@ public class TestConfig implements CommandLineRunner {
         Wallet w1 = new Wallet();
         w1.setAccount("12389");
         w1.setUser(u1);
-        w1.setBalance(0.0);
+        w1.setBalance(100.0);
 
         System.out.println(w1);
         walletRepository.save(w1);
