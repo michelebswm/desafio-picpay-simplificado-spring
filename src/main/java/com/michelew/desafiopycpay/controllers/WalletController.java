@@ -1,6 +1,7 @@
 package com.michelew.desafiopycpay.controllers;
 
 import com.michelew.desafiopycpay.domain.Wallet;
+import com.michelew.desafiopycpay.dto.TransactionResponseDTO;
 import com.michelew.desafiopycpay.dto.WalletIdResponseDTO;
 import com.michelew.desafiopycpay.services.WalletService;
 import jakarta.validation.Valid;

@@ -5,12 +5,14 @@ import com.michelew.desafiopycpay.services.exceptions.TransactionInvalidExceptio
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tb_wallet")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString
 public class Wallet {
@@ -28,12 +30,19 @@ public class Wallet {
     private Double balance;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "payer")
-    private Transaction transactionAsPayer;
+    @OneToMany(mappedBy = "payer")
+    private List<Transaction> payerTransactions = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "receiver")
-    private Transaction transactionAsReceiver;
+    @OneToMany(mappedBy = "receiver")
+    private List<Transaction> receiverTransactions = new ArrayList<>();
+
+    public Wallet(Long id, String account, User user, Double balance) {
+        this.id = id;
+        this.account = account;
+        this.user = user;
+        this.balance = balance;
+    }
 
     public void withdraw(Double amount) {
         if (this.balance >= amount) {

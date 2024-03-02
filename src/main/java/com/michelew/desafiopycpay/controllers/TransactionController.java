@@ -1,12 +1,15 @@
 package com.michelew.desafiopycpay.controllers;
 
 import com.michelew.desafiopycpay.domain.Transaction;
+import com.michelew.desafiopycpay.dto.TransactionResponseDTO;
 import com.michelew.desafiopycpay.services.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,8 +26,10 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> insert(@RequestBody @Valid Transaction transactionData){
+    public ResponseEntity<TransactionResponseDTO> insert(@RequestBody @Valid Transaction transactionData){
         Transaction newTransaction = service.insert(transactionData);
-        return ResponseEntity.ok().body(newTransaction);
+        TransactionResponseDTO responseDTO = new TransactionResponseDTO(newTransaction.getAmount(), newTransaction.getPayer().getId(), newTransaction.getReceiver().getId());
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newTransaction.getId()).toUri();
+        return ResponseEntity.created(uri).body(responseDTO);
     }
 }
