@@ -72,7 +72,7 @@ tipoPessoa:
 
 typeUser:
 - Este enum representa o tipo de usuário.
-- Os valores possíveis são: 'COMOM' (usuário comum) e 'RETAILER' (varejista).
+- Os valores possíveis são: 'COMMON' (usuário comum) e 'RETAILER' (varejista).
 
 
 **API WALLET**
